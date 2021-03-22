@@ -8,6 +8,7 @@ dependencies:
   - pandas
   - xlrd
   - networkx
+  - control
   - pip
   - pip:
     - svgpathtools
