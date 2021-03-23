@@ -1,4 +1,4 @@
-# Supplementary code for "{Modular Dynamic Biomolecular Modelling: The Unification of Stoichiometry, Thermodynamics, Kinetics and Data."
+# Supplementary code for "Modular Dynamic Biomolecular Modelling: The Unification of Stoichiometry, Thermodynamics, Kinetics and Data."
 
 ## Notebooks
 [![NBViewer](https://github.com/jupyter/design/blob/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/gawthrop/GawPanCra21/tree/main/) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gawthrop/GawPanCra21/main)
