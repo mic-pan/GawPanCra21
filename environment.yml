@@ -1,9 +1,7 @@
 name: python 3.6
 dependencies:
   - python=3.6
-  - numpy
   - matplotlib
-  - sympy
   - lxml
   - pandas
   - xlrd
@@ -14,5 +12,5 @@ dependencies:
     - svgpathtools
     - datetime
     - cobra
-    - BondGraphTools==0.3.7
+    - BondGraphTools
 
