@@ -10,9 +10,6 @@ dependencies:
   - networkx
   - control
   - pip:
-    - numpy
-    - sympy
-    - matplotlib
     - svgpathtools
     - datetime
     - cobra
