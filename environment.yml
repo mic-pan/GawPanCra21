@@ -9,6 +9,7 @@ dependencies:
   - xlrd
   - networkx
   - control
+  - pip
   - pip:
     - svgpathtools
     - datetime
