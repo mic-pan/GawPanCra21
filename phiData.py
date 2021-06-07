@@ -234,7 +234,10 @@ def known_species():
 
 def ParRubXu16_conc():
     """Table 5 of ParRubXu16"""
-
+    Conc = {}
+    ##############################
+    ### Mammalian iBMK (Mammalian) ###
+    ##############################
     conc = {}
     conc['13DPG'] = 2.24e-06
     conc['BPG'] = 0.000237
@@ -389,9 +392,36 @@ def ParRubXu16_conc():
     # ## Synonyms
     conc["2PG"] = conc["PG2"]
     conc["3PG"] = conc["PG3"]
-    
 
-    return conc
+    Conc['Mammalian'] = conc
+
+    ########################
+    ##    E. coli (selected)
+    ########################
+    conc = {}
+    conc['6PGC'] = 3.77E-3
+    #conc['6PGL'] =
+    conc['ADP'] = 5.55E-4
+    conc['ATP'] = 9.63E-3
+    conc['CO2'] = 7.52E-5
+    conc['DHAP'] = 3.06E-3
+    conc['E4P'] = 4.90E-5
+    conc['F6P'] = 2.52E-3
+    conc['FDP'] = 1.52E-2
+    conc['G3P'] = 2.71E-4
+    conc['G6P'] = 7.88E-3
+    #conc['H'] =
+    #conc['H2O'] =
+    conc['NADP'] = 2.08E-6
+    conc['NADPH'] = 1.21E-4
+    conc['R5P'] = 7.87E-4
+    conc['RU5PD'] = 1.12E-4
+    conc['S7P'] = 8.82e-4
+    conc['XU5PD'] = 1.81e-4
+ 
+    Conc['Ecoli'] = conc
+
+    return Conc
 
     
 def GarGri16_conc():
@@ -423,8 +453,9 @@ def GarGri16_conc():
 
         ## These are not in the table
         CONC = ParRubXu16_conc()
-        conc['NAD'] = CONC['NAD']
-        conc['NADH'] = CONC['NADH']
+        Conc = CONC['Mammalian']
+        conc['NAD'] = Conc['NAD']
+        conc['NADH'] = Conc['NADH']
 
         return conc
     
