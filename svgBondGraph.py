@@ -132,7 +132,7 @@ def makeConnections(bondList,
     indent = "    "
     bondList = np.array(bondList)
     compLocation = np.array(compLocation)
-    twoPortList = ['Re','re']
+    twoPortList = ['Re','re','TF']
     if convertR:
         twoPortList.append('R')
     headList = []
@@ -313,6 +313,12 @@ def makeComponents(compList,compPort,convertR=False,convertCe=False,rename=True)
              "{0}model.add({1})\n"
     )
 
+    TFStr = ("\n{0}## Component TF:{1}\n"
+             "{0}m_{1} =  sp.symbols('m_{1}')\n"
+             "{0}{1} = bgt.new('TF',name='{1}',value={{'r':m_{1}}})\n"
+             "{0}model.add({1})\n"
+    )
+
     junStr = ("\n{0}## Junction {1}:{2}\n"
               "{0}{2} = bgt.new('{1}')\n"
               "{0}model.add({2})\n"
@@ -345,6 +351,9 @@ def makeComponents(compList,compPort,convertR=False,convertCe=False,rename=True)
                 strComp = strComp+CeArgStr.format(indent,compName,compArg)
         elif compType in ["Re"]:
             strComp = strComp+ReStr.format(indent,compName)
+        elif compType in ["TF"]:
+            print(compType,compName)
+            strComp = strComp+TFStr.format(indent,compName)
         elif compType in ["0","1"]:
             strComp = strComp+junStr.format(indent,compType,compName)
         elif compType in ["Se"]:

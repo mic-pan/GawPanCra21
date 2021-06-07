@@ -3,7 +3,15 @@
 import BondGraphTools as bgt
 import sympy as sp
 import copy
-#import RE
+import importlib as imp
+
+## Import RE if it exists
+spam_spec = imp.util.find_spec("RE")
+found = spam_spec is not None
+if found:
+    import RE
+else:
+    print('Module RE does not exist (only needed for ReRE)')
 
 def setStr():
     """ Create component strings
@@ -361,29 +369,29 @@ def modulate(sys,reaction):
 
     return mod_str
 
-# def ReRE(model,quiet=True):
-#     """ Replace Re components by enzyme catalysed reaction RE """
-#     components = copy.copy(model.components)
-#     for comp in components:
-#         if comp.metamodel in ["R"]:
-#             name = comp.name
-#             if not quiet:
-#                 print("Converting reaction", name)
-#             re = RE.model()
-#             re.name = name
-#             rename(re,{'E':name+'ase'},quiet=quiet)
-#             rename(re,{'AE':name+'cmp'},quiet=quiet)
-#             rename(re,{'r1':name+'1'},quiet=quiet)
-#             rename(re,{'r2':name+'2'},quiet=quiet)
-#             model.add(re)
-#             bgt.expose(re / 'A','A')
-#             bgt.expose(re / 'B','B')
-#             for bond in model.bonds:
-#                 if comp is bond.head.component:
-#                     bgt.disconnect(bond.tail, bond.head)
-#                     bgt.connect(bond.tail,(re,'A'))
-#                 if comp is bond.tail.component:
-#                     bgt.disconnect(bond.tail, bond.head)
-#                     bgt.connect((re,'B'),bond.head)
+def ReRE(model,quiet=True):
+    """ Replace Re components by enzyme catalysed reaction RE """
+    components = copy.copy(model.components)
+    for comp in components:
+        if comp.metamodel in ["R"]:
+            name = comp.name
+            if not quiet:
+                print("Converting reaction", name)
+            re = RE.model()
+            re.name = name
+            rename(re,{'E':name+'ase'},quiet=quiet)
+            rename(re,{'AE':name+'cmp'},quiet=quiet)
+            rename(re,{'r1':name+'1'},quiet=quiet)
+            rename(re,{'r2':name+'2'},quiet=quiet)
+            model.add(re)
+            bgt.expose(re / 'A','A')
+            bgt.expose(re / 'B','B')
+            for bond in model.bonds:
+                if comp is bond.head.component:
+                    bgt.disconnect(bond.tail, bond.head)
+                    bgt.connect(bond.tail,(re,'A'))
+                if comp is bond.tail.component:
+                    bgt.disconnect(bond.tail, bond.head)
+                    bgt.connect((re,'B'),bond.head)
 
-#             model.remove(comp)
+            model.remove(comp)

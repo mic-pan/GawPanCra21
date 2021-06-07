@@ -748,6 +748,29 @@ def prodStoichName(stoich,name):
         prods.append(prod[:-3])
     return prods
 
+
+def reacSym(reac,s,chemformula=False):
+    """ Reaction symbol """
+
+    UniDir = s['UniDir']
+    if UniDir is not None:
+        uni = reac in UniDir
+    else:
+        uni = False
+        
+    if chemformula:
+        if uni:
+            eq = "& -> "
+        else:
+            eq = "& <> "
+    else:
+        if uni:
+            eq = " &\\rightarrow "
+        else:
+            eq = " &\\Leftrightarrow "
+
+    return eq
+
 def sprintrl(s,align=True,chemformula=False,split=10,reaction=[],all=False,Phi=None,units="",showMu=False):
     """ Print the chemical reactions in LaTeX.
         usepackage{chemformula}
@@ -824,6 +847,7 @@ def sprintrl(s,align=True,chemformula=False,split=10,reaction=[],all=False,Phi=N
                 product += spec+" + "
 
         reac = s["reaction"][j].replace('__','.')
+        eq = reacSym(reac,s,chemformula) 
         reacStr += prefix + substrate[:-2] +  eq
         if chemformula:
             reacStr += "[ " + reac + " ] "
@@ -913,7 +937,7 @@ def getStoich(model,linear=[],chemostats=[],quiet=False):
 
     return N,Nf,Nr
 
-def stoich(model,chemostats=[],linear=[],N=None,K=None,G=None,quiet=False):
+def stoich(model,chemostats=[],linear=[],N=None,K=None,G=None,UniDir=None,quiet=False):
     """Return stoichometric information from a bond-graph model.
 
     Parameters:
@@ -1056,6 +1080,18 @@ def stoich(model,chemostats=[],linear=[],N=None,K=None,G=None,quiet=False):
     ## Convert to complex form
     Z,D = N2ZD(Nf,Nr)
 
+    ## Set up unidirectional reactions.
+    if not UniDir is None:
+        if not quiet:
+            print("Set up unidirectional reactions")
+        for j,reac in enumerate(reaction):
+            if reac in UniDir:
+                if not quiet:
+                    print(f"Setting reaction {reac}({j}) to unidirectional")
+                for i in range(n_X):
+                    if D[i,j] > 0:
+                        D[i,j] = 0
+
     ## Number of complexes
     n_Z = Z.shape[1]
 
@@ -1087,6 +1123,7 @@ def stoich(model,chemostats=[],linear=[],N=None,K=None,G=None,quiet=False):
              "species":species,
              "chemostats":chemostats,
              "reaction":reaction,
+             "UniDir":UniDir,
              "spec_index":spec_index,
              "reac_index":reac_index,
              "spec_par_name":spec_par_name,
